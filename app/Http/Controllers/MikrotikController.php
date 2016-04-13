@@ -22,8 +22,38 @@ class MikrotikController extends Controller
      **/
     public function __construct()
     {
-        $this->client = new RouterOS\Client($this->host, $this->user,$this->pass);        
+
+        try {
+            $this->client = new RouterOS\Client($this->host, $this->user,$this->pass);            
+        } catch (\Exception $e) {
+            print "Error connecting to RouterOS";    
+        }
+        
     }
+
+
+    /**
+     * Router Command
+     *
+     * @return void
+     * @author 
+     **/
+    public function routerCommand(Request $request)
+    {
+
+        $request->header('Content-Type','text/plain');
+        $util = new RouterOS\Util( $this->client );
+        $util->changeMenu('/ip hotspot user');        
+        echo $util->get(0, 'name');
+        // foreach ($util->getAll() as $item) {
+        //     echo 'IP: ', $item->getProperty('address'),
+        //          ' MAC: ', $item->getProperty('mac-address'),
+        //          "\n";
+        // }
+    }
+
+
+
 
     /**
      * Command print function
@@ -31,14 +61,18 @@ class MikrotikController extends Controller
      * @return void
      * @author 
      **/
-    private function printResult($pathMenu=null, $argumentProperty = array())
+    public function routerPrint($pathMenu=null, $argumentProperty = array(),$numbers = NULL)
     {   
         if (is_null($pathMenu)) {
             return null;
         }
 
         $client = $this->client;
-        $responses = $client->sendSync(new RouterOS\Request($pathMenu));
+        $request = new RouterOS\Request($pathMenu);
+        if (!is_null($numbers)) {
+            $request->setQuery(RouterOS\Query::where('.id', $numbers));
+        }        
+        $responses = $client->sendSync($request);
         $result  = array();
         foreach ($responses as $response) {
             if ($response->getType() === RouterOS\Response::TYPE_DATA) {                
@@ -47,31 +81,105 @@ class MikrotikController extends Controller
                     $field[$key] = $response->getArgument($value);
                 }
                 array_push($result, $field);
-
             }
         }
-        return array($result);
+        return ($result);
     }
 
 
 
     /**
-     * Remove Active User Hotspot
-     *
+     * Router Action
+     * 
      * @return void
      * @author harylalamentik@gmail.com
-     **/
-    public function hsActiveRemove(Request $request, $id = null)
-    {             
-        $request->header('Content-Type','text/plain');
-        if ($request->has('id') || empty($id)) {
-            return 'null';
+     **/    
+    public function routerAction($path, $setArgument = array())
+    {                
+        $routerRequest = new RouterOS\Request($path);           
+        if (count($setArgument)) {
+            foreach ($setArgument as $key => $value) {
+                if (!empty($value)) {
+                    $routerRequest->setArgument($key,$value);                
+                }                
+            }        
         }
-        $disableRequest = new RouterOS\Request('/ip/hotspot/active/remove');
-        $disableRequest->setArgument('numbers', $id);
-        $this->client->sendSync($disableRequest);
-        return 'true';
-    }    
+        if ($this->client->sendSync($routerRequest)->getType() !== RouterOS\Response::TYPE_FINAL) {
+            return FALSE;
+        }        
+        return TRUE;
+    } 
+
+
+    /**
+     * Http remove user active hotspot 
+     *
+     * @return void
+     * @author 
+     **/
+    public function hotspotKillActive(Request $request,$id)
+    {
+        if ($this->routerAction('/ip/hotspot/active/remove',['numbers'=>$id])) {
+            return redirect('/user/active')->with('message','Removed');    
+        }
+        return redirect('/user/active')->with('message-error','Failed');
+
+    }
+
+
+
+
+    /**
+     * Create User
+     *
+     * @return void
+     * @author 
+     **/
+    public function createUser(Request $request)
+    {
+
+        $action = $this->routerAction('/ip/hotspot/user/add',[
+            'server'=> $request->input('server'),
+            'name'=> $request->input('name'),
+            'password'=> $request->input('password'),
+            'profile'=> $request->input('profile'),     
+            'email'=> $request->input('email'),     
+            'comment'=> $request->input('comment'),     
+        ]);
+        if ($action) {
+            return redirect('/user/create')->with('message','Created');
+        }
+        return redirect('/user/create')->with('message-error','Failed');
+    }
+
+
+    /**
+     * Remove hotspot user
+     *
+     * @return void
+     * @author 
+     **/
+    public function removeUser(Request $request,$id)
+    {        
+        if ($this->routerAction('/ip/hotspot/user/remove',['numbers'=>$id])) {
+            return redirect('/user')->with('message','Removed');    
+        }
+        return redirect('/user')->with('message-error','Failed');
+    }
+
+    /**
+     * undocumented function
+     *
+     * @return void
+     * @author 
+     **/
+    public function removeIpBinding(Request $request,$id)
+    {
+        if ($this->routerAction('/ip/hotspot/ip-binding/remove',['numbers'=>$id])) {
+            return redirect('/binding')->with('message','Removed');    
+        }
+        return redirect('/binding')->with('message-error','Failed');
+    }
 
 
     /**
@@ -82,7 +190,7 @@ class MikrotikController extends Controller
      **/
     public function ServerProfile()
     {
-        return $this->printResult('/ip/hotspot/profile/print',[
+        return $this->routerPrint('/ip/hotspot/profile/print',[
             'numbers' => '.id',
             'name' => 'name',
             'hotspot-address' => 'hotspot-address',
@@ -104,7 +212,7 @@ class MikrotikController extends Controller
      **/
     public function IpBinding(Request $request)
     {
-        return $this->printResult('/ip/hotspot/ip-binding/print',[
+        return $this->routerPrint('/ip/hotspot/ip-binding/print',[
             'numbers' => '.id',
             'mac-address' => 'mac-address',
             'address' => 'address',
@@ -120,6 +228,34 @@ class MikrotikController extends Controller
     }
 
 
+
+    /**
+     * undocumented function
+     *
+     * @return void
+     * @author 
+     **/
+    public function createIpBinding(Request $request)
+    {
+        
+        $action = $this->routerAction('/ip/hotspot/ip-binding/add',[        
+            'mac-address'=> $request->input('mac-address'),            
+            'comment'=> $request->input('comment'),     
+            'address'=> $request->input('address'),     
+            'to-address'=> $request->input('to-address'),     
+            'type'=> $request->input('type'),     
+            'email'=> $request->input('email'),     
+            'server'=> $request->input('server'),
+        ]);
+
+        if ($action) {
+            return redirect('/binding/create')->with('message','Created');
+        }
+        return redirect('/binding/create')->with('message-error','Failed');
+    }
+
+
+
     /**
      * Display list user profile
      *
@@ -128,7 +264,7 @@ class MikrotikController extends Controller
      **/
     public function UserProfile()
     {
-        return $this->printResult('/ip/hotspot/user/profile/print',[
+        return $this->routerPrint('/ip/hotspot/user/profile/print',[
             'numbers' => '.id',
             'name' => 'name',
             'idle-itmeout' => 'idle-itmeout',
@@ -152,11 +288,13 @@ class MikrotikController extends Controller
     public function hsUsers(Request $request)
     {
 
-        return $this->printResult('/ip/hotspot/user/print',[
+        $request->header('Content-Type','application/json');
+
+        return $this->routerPrint('/ip/hotspot/user/print',[
             'numbers' => '.id',
             'disabled' => 'disabled',
             'name' => 'name',
-            'password' => 'password',
+            // 'password' => 'password',
             'profile' => 'profile',
             'server' => 'server',
             'bytesIn' => 'bytes-in',
@@ -183,8 +321,8 @@ class MikrotikController extends Controller
      **/
     public function hsActive(Request $request)
     {
-        return $this->printResult('/ip/hotspot/active/print',[
-            'id' => '.id',
+        return $this->routerPrint('/ip/hotspot/active/print',[
+            'numbers' => '.id',
             'radius' => 'radius',
             'server' => 'server',
             'user' => 'user',
@@ -200,7 +338,7 @@ class MikrotikController extends Controller
             'limitBytesIn' => 'limit-bytes-in',                    
             'limitBytesOut' => 'limit-bytes-out',                    
             'limitBytesTotal' => 'limit-bytes-total',
-            'macAddress' => 'mac-caddress',
+            'macAddress' => 'mac-address',
             'packetsIn' => 'packets-in',
             'packetsOut' => 'packets-out',
             'sessionTimeLeft' => 'session-time-left',
