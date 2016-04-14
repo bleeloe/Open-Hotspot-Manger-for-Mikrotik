@@ -29,7 +29,8 @@ class RouterController extends Controller
     public function update(Request $request)
     {    		
     	$data = \App\Mikrotik::find(1);
-    	$data->name = $request->input('name');
+        $data->name = $request->input('name');
+    	$data->user = $request->input('user');
     	if ($request->has('pass')) {    		
     		$data->pass = \Crypt::encrypt($request->input('pass'));
     	}    	
