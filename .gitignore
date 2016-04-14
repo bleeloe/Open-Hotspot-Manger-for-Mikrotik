@@ -1,7 +1,7 @@
 /vendor
 /node_modules
 /public/storage
+/.git
 Homestead.yaml
 Homestead.json
 .env
-.git
