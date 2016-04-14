@@ -31,7 +31,7 @@ class RouterController extends Controller
     	$data = \App\Mikrotik::find(1);
     	$data->name = $request->input('name');
     	if ($request->has('pass')) {    		
-    		$data->pass =   Crypt::encrypt($request->input('pass'));
+    		$data->pass = \Crypt::encrypt($request->input('pass'));
     	}    	
     	$data->ipaddress = $request->input('ipaddress');
     	$data->is_active = $request->input('is_active');
