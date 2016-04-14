@@ -73,8 +73,7 @@
     @yield('content')
     <div class="row">
         <div class="col-md-12 text-center">
-            Open Hotspot Manager - Copyright 2016 | <a href="https://id.linkedin.com/in/harylalamentik
-">Hary Lalamentik</a>
+            Open Hotspot Manager &copy; 2016
         </div>
     </div>
     
