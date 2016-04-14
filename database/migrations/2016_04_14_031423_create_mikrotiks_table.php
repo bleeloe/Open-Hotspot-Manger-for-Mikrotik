@@ -27,7 +27,7 @@ class CreateMikrotiksTable extends Migration
                 'ipaddress' => '',
                 'user' => '',
                 'is_active' => 'true',
-                'password' => \Hash::make('admin'),
+                'pass' => \Hash::make('admin'),
             )
         );
     }
