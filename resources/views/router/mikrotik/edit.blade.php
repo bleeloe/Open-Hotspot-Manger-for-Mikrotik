@@ -18,7 +18,7 @@
 	                		</div>
 	                		<div class="form-group">
 	                			<label for="pass">Password</label>
-	                			<input name="pass" type="pass" class="form-control" id="pass" value="{{old('pass')}}">
+	                			<input autocomplete="off"  name="pass" type="password" class="form-control" id="pass" value="{{old('pass')}}">
 	                		</div>
 	                		<div class="form-group">
 	                			<label for="ipaddress">Ipaddress</label>

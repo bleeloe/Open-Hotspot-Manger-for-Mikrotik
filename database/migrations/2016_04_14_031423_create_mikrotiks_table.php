@@ -21,6 +21,15 @@ class CreateMikrotiksTable extends Migration
             $table->string('is_active');
             $table->timestamps();
         });
+        DB::table('mikrotiks')->insert(
+            array(
+                'name' => 'Router Name',
+                'ipaddress' => '',
+                'user' => '',
+                'is_active' => 'true',
+                'password' => \Hash::make('admin'),
+            )
+        );
     }
 
     /**
