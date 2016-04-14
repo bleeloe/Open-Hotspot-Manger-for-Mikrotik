@@ -17,8 +17,8 @@
 	                			<input name="name" autocomplete="off" type="text" required class="form-control" id="name" value="{{old('name',$data->name)}}">
 	                		</div>
 	                		<div class="form-group">
-	                			<label for="user">user</label>
-	                			<input user="user" autocomplete="off" type="text" required class="form-control" id="user" value="{{old('user',$data->user)}}">
+	                			<label for="user">User</label>
+	                			<input name="user" autocomplete="off" type="text" required class="form-control" id="user" value="{{old('user',$data->user)}}">
 	                		</div>
 	                		<div class="form-group">
 	                			<label for="pass">Password</label>
