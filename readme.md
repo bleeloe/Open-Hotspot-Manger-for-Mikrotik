@@ -8,6 +8,9 @@ Developed with Laravel Framework
 Clone from repository
 git clone https://github.com/bleeloe/Open-Hotspot-Manger-for-Mikrotik.git 
 
+Run Composer, please you have to install composer first https://getcomposer.org/
+composer update
+
 Edit configuration file
 edit .env file then change config with your mysql configuration
 
