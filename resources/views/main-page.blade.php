@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
 <div class="container-fluid">
     <div class="row">
@@ -8,8 +7,9 @@
                 <div class="panel-heading"><strong>Hotspot Management</strong></div>
                 <div class="panel-body">
                     <ul>
-                        <li>User Management</li>
-                        <li>IP Binding</li>
+                        <li><strong>User Management</strong>
+                        </li>
+                        <li><strong>IP Binding</strong></li>
                     </ul>
                 </div>
             </div>

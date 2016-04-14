@@ -6,7 +6,7 @@
         <div class="col-md-10 col-xs-10 col-sm-10">
         @include('flash')
             <div class="panel panel-default">
-                <div class="panel-heading">User</div>
+                <div class="panel-heading"><strong>User</strong></div>
                 <div class="panel-body">
                 <div id="toolbar">
                 	<a href="{{url('/user/create')}}" title="add user" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i></a>

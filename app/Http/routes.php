@@ -19,12 +19,12 @@ Route::get('/', function(){
 	return view('main-page');
 });
 
+
 Route::auth();
 
 Route::group(['middleware'=>'auth'], function(){	
 
 	Route::get('/home', 'HomeController@index');
-
 	// API mikrotik hotspot
 	Route::get('/hotspot/profile','MikrotikController@ServerProfile');
 	Route::get('/hotspot/ip-binding','MikrotikController@IpBinding');
@@ -38,7 +38,7 @@ Route::group(['middleware'=>'auth'], function(){
 	Route::get('/user','HomeController@user');
 	Route::get('/user/create','HomeController@createUser');
 	Route::post('/user/create','MikrotikController@createUser');
-	Route::get('/user/remove/{id}','MikrotikController@userRemove');
+	Route::get('/user/remove/{id}','MikrotikController@removeUser');
 	Route::get('/user/{id}/edit','HomeController@editUser');
 	Route::post('/user/{id}/edit','HomeController@editUserSave');
 
@@ -53,5 +53,19 @@ Route::group(['middleware'=>'auth'], function(){
 	Route::get('/active/kill/{id?}','MikrotikController@hotspotKillActive');
 	Route::get('/user/active','HomeController@userActive');	
 
+	Route::get('/u/profile','UserController@profile');
+	Route::post('/u/profile','UserController@update');
 
-});	
+	Route::get('/user/register','UserController@create');
+	Route::post('/user/register','UserController@store');
+
+	Route::get('/router','RouterController@edit');
+	Route::post('/router','RouterController@update');	
+
+});
+
+Route::group(['middleware'=>'guest'],function(){
+	Route::match(['GET','POST'],'/register',function(){
+		return view('main-page');
+	});	
+});

@@ -9,7 +9,8 @@
         "laravel/framework": "5.2.*",
         "pear2/net_transmitter": "1.0.0a4",
         "pear2/net_routeros": "1.0.0b4",
-        "pear2/cache_shm": "^0.1.3"
+        "pear2/cache_shm": "^0.1.3",
+        "laravelcollective/html": "5.2.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

@@ -5,7 +5,7 @@
         @include('sidemenu')
         <div class="col-md-10 col-xs-10 col-sm-10">
             <div class="panel panel-default">
-                <div class="panel-heading">Binding</div>
+                <div class="panel-heading"><strong>Binding</strong></div>
                 <div id="toolbar">                	
                 	<div class="btn-group">
                 	<a href="{{url('/binding/create')}}" title="add user" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i></a>	
@@ -17,6 +17,7 @@
 				        	<th data-visible="true" data-sortable="true" data-formatter="df">Delete</th>
 				        	<th data-visible="true" data-sortable="true" data-formatter="df1">Edit</th>
 							<th data-visible="false" data-sortable="true" data-field="numbers">numbers</th>							
+							<th data-visible="true" data-sortable="true" data-field="disabled">disabled</th>							
 							<th data-visible="true" data-sortable="true" data-field="mac-address">mac-address</th>							
 							<th data-visible="true" data-sortable="true" data-field="comment">comment</th>
 							<th data-visible="true" data-sortable="true" data-field="address">address</th>

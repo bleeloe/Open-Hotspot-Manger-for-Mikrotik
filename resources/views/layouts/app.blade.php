@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>IT Support</title>
+    <title>Open Hotspot Manager for Mikrotik</title>
 
     <!-- Fonts -->
     <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
@@ -36,7 +36,7 @@
 
                 <!-- Branding Image -->
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    IT Support
+                    Open Hotspot Manger for Mikrotik
                 </a>
             </div>
 
@@ -45,7 +45,8 @@
                 <ul class="nav navbar-nav">
                     @if (!Auth::guest())
                         <li><a href="{{ url('/home') }}">Home</a></li>                        
-                    @endif                    
+                        <li><a href="{{ url('/user/register') }}">Register</a></li>
+                    @endif                                        
                 </ul>
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
@@ -55,10 +56,11 @@
                     @else
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                {{ Auth::user()->name }} <span class="caret"></span>
+                                <strong>{{ Auth::user()->name }}</strong> <span class="caret"></span>
                             </a>
 
                             <ul class="dropdown-menu" role="menu">
+                                <li><a href="{{ url('/u/profile') }}"><i class="fa fa-btn fa-sign-out"></i>Profile</a></li>
                                 <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
                             </ul>
                         </li>
@@ -67,9 +69,15 @@
             </div>
         </div>
     </nav>
-
+    
     @yield('content')
-
+    <div class="row">
+        <div class="col-md-12 text-center">
+            Open Hotspot Manager - Copyright 2016 | <a href="https://id.linkedin.com/in/harylalamentik
+">Hary Lalamentik</a>
+        </div>
+    </div>
+    
     <!-- JavaScripts -->
     <script src="http://code.jquery.com/jquery-1.12.3.min.js" integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>    

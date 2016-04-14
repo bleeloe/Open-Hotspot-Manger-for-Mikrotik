@@ -9,13 +9,10 @@ use App\Http\Requests;
 class MikrotikController extends Controller
 {
 
-    private $host = '222.124.14.170';
-    private $user = 'admin';
-    private $pass = 'tbsjkt';
     protected $client;
 
     /**
-     * undocumented function
+     * construct
      *
      * @return void
      * @author 
@@ -23,8 +20,9 @@ class MikrotikController extends Controller
     public function __construct()
     {
 
+        $mikrotik = \App\Mikrotik::find(1);                    
         try {
-            $this->client = new RouterOS\Client($this->host, $this->user,$this->pass);            
+            $this->client = new RouterOS\Client($mikrotik->ipaddress, $mikrotik->user,\Crypt::decrypt($mikrotik->pass));
         } catch (\Exception $e) {
             print "Error connecting to RouterOS";    
         }

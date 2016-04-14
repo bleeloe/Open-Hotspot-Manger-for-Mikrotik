@@ -33,6 +33,10 @@
 	                			<input name="email" type="text" class="form-control" id="email" value="{{old('email',$email)}}">
 	                		</div>
 	                		<div class="form-group">
+	                			<label for="disabled">disabled</label>
+	                			<input name="disabled" type="text" class="form-control" id="disabled" value="{{old('disabled',$disabled)}}">
+	                		</div>
+	                		<div class="form-group">
 	                			<label for="comment">Comment</label>
 	                			<input name="comment" type="text" class="form-control" id="comment" value="{{old('comment',$comment)}}">
 	                		</div>
