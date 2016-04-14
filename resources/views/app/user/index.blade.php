@@ -3,7 +3,7 @@
 <div class="container-fluid">
     <div class="row">        
         @include('sidemenu')
-        <div class="col-md-10 col-xs-10 col-sm-10">
+        <div class="col-md-10 col-sm-10 col-xs-10">
         @include('flash')
             <div class="panel panel-default">
                 <div class="panel-heading"><strong>User</strong></div>
