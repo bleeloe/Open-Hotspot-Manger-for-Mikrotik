@@ -6,20 +6,32 @@ Developed with Laravel Framework
 
 ## Instalation
 Clone from repository
+
+```
 git clone https://github.com/bleeloe/Open-Hotspot-Manger-for-Mikrotik.git 
+```
 
 Run Composer, please you have to install composer first https://getcomposer.org/
+```
 composer update
-
+```
 Edit configuration file
-edit .env file then change config with your mysql configuration
+edit `.env` file then change config based on your mysql configuration
 
-run this command 
+host, user, password and database name.
+
+
+after editing run artisan command 
+```
 php artisan migrate
+```
+
 
 Default user
-username admin@localhost.local
-password admin
+username `admin@localhost.local`
+
+
+password `admin`
 
 
 ## Features:
@@ -30,6 +42,7 @@ password admin
 ## Contributing
 Thank you for considering contributing to Open Hotspot Manager for Mikrotik! 
 Please pull request to develop branch
+
 
 ## License
 
