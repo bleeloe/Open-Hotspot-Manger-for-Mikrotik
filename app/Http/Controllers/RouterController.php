@@ -35,7 +35,8 @@ class RouterController extends Controller
     	if ($request->has('pass')) {    		
     		$data->pass = \Crypt::encrypt($request->input('pass'));
     	}    	
-    	$data->ipaddress = $request->input('ipaddress');
+        $data->ipaddress = $request->input('ipaddress');
+    	$data->port = $request->input('port');
     	$data->is_active = $request->input('is_active');
     	$data->save();
     	return redirect('/router')->with('message','Saved');

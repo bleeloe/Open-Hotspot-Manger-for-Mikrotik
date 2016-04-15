@@ -29,6 +29,10 @@
 	                			<input name="ipaddress" type="text" class="form-control" id="ipaddress" value="{{old('ipaddress',$data->ipaddress)}}">
 	                		</div>
 	                		<div class="form-group">
+	                			<label for="port">Port</label>
+	                			<input name="port" type="text" class="form-control" id="port" value="{{old('port',$data->port)}}">
+	                		</div>
+	                		<div class="form-group">
 	                			<label for="is_active">is_active</label>
 	                			<input name="is_active" type="text" class="form-control" id="is_active" value="{{old('is_active',$data->is_active)}}">
 	                		</div>	                		

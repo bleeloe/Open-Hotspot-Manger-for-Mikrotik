@@ -22,7 +22,7 @@ class MikrotikController extends Controller
 
         $mikrotik = \App\Mikrotik::find(1);                    
         try {
-            $this->client = new RouterOS\Client($mikrotik->ipaddress, $mikrotik->user,\Crypt::decrypt($mikrotik->pass));
+            $this->client = new RouterOS\Client($mikrotik->ipaddress, $mikrotik->user,\Crypt::decrypt($mikrotik->pass,$mikrotik->port));
         } catch (\Exception $e) {
             print "Error connecting to RouterOS";    
         }
