@@ -20,15 +20,28 @@ class MikrotikController extends Controller
     public function __construct()
     {
 
-        $mikrotik = \App\Mikrotik::find(1);                    
-        try {
-            $this->client = new RouterOS\Client($mikrotik->ipaddress, $mikrotik->user,\Crypt::decrypt($mikrotik->pass,$mikrotik->port));
-        } catch (\Exception $e) {
-            print "Error connecting to RouterOS";    
-        }
+        $this->connection();
         
     }
 
+
+    /**
+     * Connection to router
+     *
+     * @return void
+     * @author 
+     **/
+    protected function connection()
+    {
+        $mikrotik = \App\Mikrotik::find(1);                    
+
+        try {
+            $this->client = new RouterOS\Client($mikrotik->ipaddress, $mikrotik->user,\Crypt::
+                decrypt($mikrotik->pass),$mikrotik->port);            
+        } catch (\Exception $e) {
+            print "Error connecting to RouterOS";    
+        }
+    }
 
     /**
      * Router Command
